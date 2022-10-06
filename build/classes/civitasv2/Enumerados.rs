@@ -1,0 +1,3 @@
+civitasv2.EstadosJuego
+civitasv2.TipoCasilla
+civitasv2.TipoSorpresa

@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class MazoSorpresas {
 
-    private ArrayList<TipoSorpresa> sorpresas;
+    private ArrayList<Sorpresa> sorpresas;
     private boolean barajada;
     private int usadas;
     private boolean debug;
@@ -26,17 +26,17 @@ public class MazoSorpresas {
     }
 
     MazoSorpresas() {
-       this.init();
+        this.init();
         this.debug = false;
     }
 
-    void alMazo(TipoSorpresa s) {
+    void alMazo(Sorpresa s) {
         if (!this.barajada) {
             this.sorpresas.add(s);
         }
     }
 
-    TipoSorpresa siguiente() {
+    Sorpresa siguiente() {
         if (!this.barajada || this.usadas == this.sorpresas.size()) {
             if (!this.debug) {
                 Collections.shuffle(this.sorpresas);
@@ -45,7 +45,7 @@ public class MazoSorpresas {
             }
         }
         this.usadas++;
-        TipoSorpresa sorpresa = this.sorpresas.get(0);
+        Sorpresa sorpresa = this.sorpresas.get(0);
         this.sorpresas.remove(0);
         this.sorpresas.add(sorpresa);
         return sorpresa;

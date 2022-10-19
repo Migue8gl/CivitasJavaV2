@@ -10,9 +10,8 @@ public class Tablero {
     public Tablero() {
 
         this.casillas = new ArrayList<>();
-        Casilla obj = new Casilla("Salida");
+        Casilla obj = new Casilla("SALIDA");
         this.casillas.add(obj);
-
         this.porSalida = false;
     }
 
@@ -48,9 +47,8 @@ public class Tablero {
     int nuevaPosicion(int actual, int tirada) {
         int posicion = -1;
 
-   
         posicion = (actual + tirada) % 20;
-        
+
         if (posicion != actual + tirada) {
             this.porSalida = true;
         }

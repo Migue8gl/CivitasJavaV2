@@ -33,7 +33,7 @@ public class Casilla {
 
     Casilla(String _nombre, MazoSorpresas mazo) {
         this.init();
-        this.tipo = TipoCasilla.DESCANSO;
+        this.tipo = TipoCasilla.SORPRESA;
         this.nombre = _nombre;
         this.mazo = mazo;
     }
@@ -51,6 +51,16 @@ public class Casilla {
 
     String getNombre() {
         return this.nombre;
+    }
+    
+    private boolean esEsteElPropietario(Jugador jugador) {
+        boolean esPropietario = false;
+
+        if (this.propietario == jugador) {
+            esPropietario = true;
+        }
+
+        return esPropietario;
     }
 
     static float getFactorAlquilerCalle() {
@@ -166,7 +176,7 @@ public class Casilla {
     boolean construirHotel(Jugador jugador) {
         boolean result = false;
 
-        if (esEsteElPropietario(jugador)) {
+        if (this.esEsteElPropietario(jugador)) {
             this.propietario.paga(this.getPrecioEdificar());
             this.numHoteles++;
             result = true;
@@ -176,7 +186,7 @@ public class Casilla {
     }
     
     void tramitarAlquiler(Jugador jugador) {
-        if (this.tienePropietario() && !this.esEsteElPropietario(jug)) {
+        if (this.tienePropietario() && !this.esEsteElPropietario(jugador)) {
             jugador.pagaAlquiler(this.getPrecioAlquiler());
             this.propietario.recibe(this.getPrecioAlquiler());
         }

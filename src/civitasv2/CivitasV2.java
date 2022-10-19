@@ -42,11 +42,11 @@ public class CivitasV2 {
         System.out.println(Dado.getInstance().getUltimoResultado());
         System.out.println(TipoCasilla.CALLE);
         System.out.println(TipoSorpresa.PAGARCOBRAR);
-        System.out.println(EstadosJuego.DESPUES_COMPRAR);
+        System.out.println(EstadoJuego.DESPUES_COMPRAR);
         
         Tablero tablero = new Tablero();
-        Casilla c1 = new Casilla(TipoCasilla.CALLE, "Sala Dos Hermanas", 100, 120, 300);
-        Casilla c2 = new Casilla(TipoCasilla.CALLE, "Sala Cuatro Amigos", 1, 2, 300);
+        Casilla c1 = new Casilla("Sala Dos Hermanas", 100, 120, 300);
+        Casilla c2 = new Casilla("Sala Cuatro Amigos", 1, 2, 300);
         tablero.añadeCasilla(c1);
         tablero.añadeCasilla(c2);
         Casilla aux1 = tablero.getCasilla(0);

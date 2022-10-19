@@ -1,6 +1,6 @@
 package civitasv2;
 
-enum EstadosJuego {
+enum EstadoJuego {
   INICIO_TURNO,
   DESPUES_CARCEL,
   DESPUES_AVANZAR,
@@ -17,4 +17,11 @@ enum TipoCasilla {
 enum TipoSorpresa {
     PAGARCOBRAR,
     PORCASAHOTEL
+}
+
+enum OperacionJuego {
+    PASAR_TURNO,
+    AVANZAR,
+    COMPRAR,
+    GESTIONAR
 }

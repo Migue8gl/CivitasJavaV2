@@ -46,11 +46,18 @@ public class CivitasJuego {
         this.jugadores.set(this.indiceJugadorActual, jugadorActual);
     }
 
+    public Casilla getCasillaActual() {
+        int indice = this.jugadores.get(this.indiceJugadorActual).getNumCasillaActual();
+        return this.tablero.getCasilla(indice);
+    }
+
     public boolean comprar() {
+        boolean res = false;
         Jugador jugadorActual = this.jugadores.get(this.indiceJugadorActual);
         int numCasillaActual = jugadorActual.getNumCasillaActual();
-        Casilla casilla = this.tablero.getCasilla(numCasillaActual);
-        return jugadorActual.comprar(casilla);
+        CasillaCalle casilla = (CasillaCalle) this.tablero.getCasilla(numCasillaActual);
+        res = jugadorActual.comprar(casilla);
+        return res;
     }
 
     public boolean construirCasa(int ip) {
@@ -84,18 +91,22 @@ public class CivitasJuego {
     private void inicializarMazoSorpresas() {
         for (int i = 0; i < 6; i++) {
             if (i % 2 == 0) {
-                this.mazo.alMazo(new Sorpresa(TipoSorpresa.PAGARCOBRAR, "cobrar", 1));
+                this.mazo.alMazo(new Sorpresa_PagarCobrar("cobrar", 1));
             } else {
-                this.mazo.alMazo(new Sorpresa(TipoSorpresa.PAGARCOBRAR, "pagar", -1));
+                this.mazo.alMazo(new Sorpresa_PagarCobrar("pagar", -1));
             }
         }
 
         for (int i = 0; i < 4; i++) {
             if (i % 2 == 0) {
-                this.mazo.alMazo(new Sorpresa(TipoSorpresa.PORCASAHOTEL, "cobrar", 1));
+                this.mazo.alMazo(new Sorpresa_PorCasaHotel("cobrar", 1));
             } else {
-                this.mazo.alMazo(new Sorpresa(TipoSorpresa.PORCASAHOTEL, "pagar", -1));
+                this.mazo.alMazo(new Sorpresa_PorCasaHotel("pagar", -1));
             }
+        }
+
+        for (int i = 0; i < 2; i++) {
+            this.mazo.alMazo(new SorpresaConvertirme("converison", 0));
         }
     }
 
@@ -103,16 +114,19 @@ public class CivitasJuego {
         this.tablero = new Tablero();
         this.tablero.añadeCasilla(new Casilla("PARKING"));
         for (int i = 0; i < 4; i++) {
-            this.tablero.añadeCasilla(new Casilla("SORPRESA", mazo));
+            this.tablero.añadeCasilla(new CasillaSorpresa("SORPRESA", mazo));
         }
 
         for (int i = 0; i < 14; i++) {
-            this.tablero.añadeCasilla(new Casilla("CALLE", 1, 1, 1));
+            this.tablero.añadeCasilla(new CasillaCalle("CALLE", 1000, 1000, 1000));
         }
     }
 
     private void pasarTurno() {
-        this.indiceJugadorActual = this.indiceJugadorActual % this.jugadores.size();
+        this.indiceJugadorActual++;
+        if (indiceJugadorActual == jugadores.size()) {
+            indiceJugadorActual = 0;
+        }
     }
 
     public ArrayList<Jugador> ranking() {
@@ -138,18 +152,19 @@ public class CivitasJuego {
         return ranking;
     }
 
-    /*public OperacionJuego siguientePaso() {
-        Jugador jugadorActual = jugadores.get(indiceJugadorActual);
-        OperacionJuego operacion = gestor.operacionesPermitidas(jugadorActual, estado);
+    public OperacionJuego siguientePaso() {
+        Jugador jugadorActual = this.jugadores.get(this.indiceJugadorActual);
+        OperacionJuego operacion = this.gestor.siguienteOperacion(jugadorActual, this.estado);
         if (operacion == OperacionJuego.PASAR_TURNO) {
-            pasarTurno();
-            siguientePasoCompletado(operacion);
+            this.pasarTurno();
+            this.siguientePasoCompletado(operacion);
         } else if (operacion == OperacionJuego.AVANZAR) {
-            avanzaJugador();
-            siguientePasoCompletado(operacion);
+            this.avanzaJugador();
+            this.siguientePasoCompletado(operacion);
         }
         return operacion;
-    }*/
+    }
+
     public void siguientePasoCompletado(OperacionJuego operacion) {
         this.estado = this.gestor.siguienteEstado(this.jugadores.get(this.indiceJugadorActual), this.estado, operacion);
     }

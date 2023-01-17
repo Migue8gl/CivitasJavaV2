@@ -19,7 +19,7 @@ public class Dado {
         return Dado.instance;
     }
 
-    int tirar() {
+    public int tirar() {
         if (!debug) {
             ultimoResultado = random.nextInt(6) + 1;
             return ultimoResultado;
@@ -28,7 +28,7 @@ public class Dado {
             return 1;
     }
     
-    int quienEmpieza(int n) {
+    public int quienEmpieza(int n) {
         int jug = this.random.nextInt(n);
         
         return jug;
@@ -39,8 +39,12 @@ public class Dado {
         Diario.getInstance().ocurreEvento("Debug mode: " + this.debug);
     }
     
-    int getUltimoResultado() {
+    public int getUltimoResultado() {
         return this.ultimoResultado;
+    }
+    
+    public boolean getDebug() {
+        return debug;
     }
 
 }
